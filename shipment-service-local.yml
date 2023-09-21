@@ -1,89 +1,76 @@
-common:
-    message: Hi from sipment-service.properties file
-enableSwagger: true
-logger: local
-management:
-    endpoint:
-        health:
-            show-details: always
-        loggers:
-            enabled: true
-    endpoints:
-        web:
-            exposure:
-                include: loggers, health
-    health:
-        circuitbreakers:
-            enabled: true
-    tracing:
-        sampling:
-            probability: 1.0
-    zipkin:
-        tracing:
-            endpoint: http://localhost:9411/api/v2/spans
-microservice-one:
-    value: 100
-resilience4j:
-    circuitbreaker:
-        instances:
-            dashboardCount:
-                wait-duration-in-open-state: 5s
-		automatic-transition-from-open-to-half-open-enabled: true
-		event-consumer-buffer-size: 10
-		register-health-indicator: true
-		permitted-number-of-calls-in-half-open-state: 3
-		sliding-window-type: count-based
-		minimum-number-of-calls: 3
-		failure-rate-threshold: 50
-		sliding-window-size: 10
-server:
-    port: 9070
-    servlet:
-        context-path: /shipment-service
-shipment:
-    export:
-        contextRoute: http://localhost:9070/shipment-service
-shipment-service:
-    driver-class-name: oracle.jdbc.OracleDriver
-    jdbcUrl: ${shipment-service.url}
-    password: ORdr#08122020_UL#rep
-    url: jdbc:oracle:thin:@d00ts7_tpurgent?TNS_ADMIN=src/main/resources/Wallet_D00TS7_ATP_QA_New
-    username: WIMTREPT
-spring:
-    datasource:
-        hikari:
-            connectionTimeout: 30000
-            idleTimeout: 30000
-            maxLifetime: 2000000
-            maximumPoolSize: 20
-            minimumIdle: 5
-            poolName: SpringBootJPAHikariCP
-    jpa:
-        properties:
-            hibernate:
-                format_sql: true
-                show_sql: true
-                use_sql_comments: true
-    mail:
-        debug: true
-        host: smtp.gmail.com
-        password: sjqijumpukzfxtgt
-        port: 587
-        properties:
-            mail:
-                smtp:
-                    auth: true
-                    auth.login.disable: true
-                    starttls:
-                        enable: true
-                        required: false
-        username: balaramrhs.friend@gmail.com
-    main:
-        allow-circular-references: true
-    servlet:
-        multipart:
-            max-file-size: 50MB
-            max-request-size: 500MB
-user-service:
-    ribbon:
-        listOfServers: https://unlv-digi-log-test-oci.opc.oracleoutsourcing.com/
+microservice-one.value=100
+common.message=Hi from sipment-service.properties file
+
+server.servlet.context-path=/shipment-service
+
+#Circuit Breaker
+#resilience4j.circuitbreaker.configs.default.registerHealthIndicator= true
+#resilience4j.circuitbreaker.instances.UserServiceProxygetUserDetailsDataString.minimumNumberOfCalls= 10
+#resilience4j.circuitbreaker.instances.UserServiceProxygetUserDetailsDataString.failureRateThreshold= 50
+
+resilience4j.circuitbreaker.instances.dashboardCount.wait-duration-in-open-state= 5s
+resilience4j.circuitbreaker.instances.dashboardCount.automatic-transition-from-open-to-half-open-enabled= true
+resilience4j.circuitbreaker.instances.dashboardCount.event-consumer-buffer-size= 10
+resilience4j.circuitbreaker.instances.dashboardCount.register-health-indicator= true
+resilience4j.circuitbreaker.instances.dashboardCount.permitted-number-of-calls-in-half-open-state= 3
+resilience4j.circuitbreaker.instances.dashboardCount.sliding-window-type= count-based
+resilience4j.circuitbreaker.instances.dashboardCount.minimum-number-of-calls= 3
+resilience4j.circuitbreaker.instances.dashboardCount.failure-rate-threshold= 50
+resilience4j.circuitbreaker.instances.dashboardCount.sliding-window-size= 10
+
+# file size limit
+spring.servlet.multipart.max-file-size=50MB
+spring.servlet.multipart.max-request-size=500MB
+
+server.port=9070
+logger=local
+enableSwagger=true
+
+management.endpoints.web.exposure.include=loggers, health
+management.endpoint.loggers.enabled=true
+management.health.circuitbreakers.enabled= true
+management.endpoint.health.show-details= always
+
+shipment-service.url=jdbc:oracle:thin:@d00ts7_tpurgent?TNS_ADMIN=src/main/resources/Wallet_D00TS7_ATP_QA_New
+shipment-service.jdbcUrl=${shipment-service.url}
+#shipment-service.username=WIMT
+#shipment-service.password=ORdr#27062022_UL
+shipment-service.username=WIMTREPT
+shipment-service.password=ORdr#08122020_UL#rep
+shipment-service.driver-class-name=oracle.jdbc.OracleDriver
+
+spring.datasource.hikari.minimumIdle=5
+spring.datasource.hikari.maximumPoolSize=20
+spring.datasource.hikari.idleTimeout=30000
+spring.datasource.hikari.poolName=SpringBootJPAHikariCP
+spring.datasource.hikari.maxLifetime=2000000
+spring.datasource.hikari.connectionTimeout=30000
+
+#Log
+spring.jpa.properties.hibernate.show_sql=true
+spring.jpa.properties.hibernate.use_sql_comments=true
+spring.jpa.properties.hibernate.format_sql=true
+
+#Feign clients config
+user-service.ribbon.listOfServers=https://unlv-digi-log-test-oci.opc.oracleoutsourcing.com/
+spring.main.allow-circular-references=true
+#feign.client.circuitbreaker.enabled= true
+#feign.client.circuitbreaker.alphanumeric-ids.enabled= true
+
+#Zipkin config
+management.zipkin.tracing.endpoint=http://localhost:9411/api/v2/spans
+management.tracing.sampling.probability=1.0
+
+#Email config
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=balaramrhs.friend@gmail.com
+spring.mail.password=sjqijumpukzfxtgt
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.auth.login.disable=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.starttls.required=false
+spring.mail.debug=true
+
+#Context route for shipment export
+shipment.export.contextRoute = http://localhost:9070/shipment-service
