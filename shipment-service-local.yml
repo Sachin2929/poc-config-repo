@@ -1,0 +1,91 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: loggers, health
+  endpoint:
+    loggers:
+      enabled: 'true'
+    health:
+      show-details: always
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+  health:
+    circuitbreakers:
+      enabled: 'true'
+  tracing:
+    sampling:
+      probability: '1.0'
+spring:
+  main:
+    allow-circular-references: 'true'
+  mail:
+    username: balaramrhs.friend@gmail.com
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: 'true'
+            required: 'false'
+          auth:
+            nodeValue: 'true'
+            login:
+              disable: 'true'
+    host: smtp.gmail.com
+    password: sjqijumpukzfxtgt
+    port: '587'
+    debug: 'true'
+  jpa:
+    properties:
+      hibernate:
+        format_sql: 'true'
+        use_sql_comments: 'true'
+        show_sql: 'true'
+  datasource:
+    hikari:
+      poolName: SpringBootJPAHikariCP
+      idleTimeout: '30000'
+      maxLifetime: '2000000'
+      connectionTimeout: '30000'
+      minimumIdle: '5'
+      maximumPoolSize: '20'
+  servlet:
+    multipart:
+      max-request-size: 500MB
+      max-file-size: 50MB
+shipment-service:
+  driver-class-name: oracle.jdbc.OracleDriver
+  jdbcUrl: ${shipment-service.url}
+  username: WIMTREPT
+  url: jdbc:oracle:thin:@d00ts7_tpurgent?TNS_ADMIN=src/main/resources/Wallet_D00TS7_ATP_QA_New
+  password: ORdr#08122020_UL#rep
+logger: local
+resilience4j:
+  circuitbreaker:
+    instances:
+      dashboardCount:
+        waitDurationInOpenState: 5s
+        automaticTransitionFromOpenToHalfOpenEnabled: 'true'
+        eventConsumerBufferSize: '10'
+        registerHealthIndicator: 'true'
+        permittedNumberOfCallsInHalfOpenState: '3'
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: '5'
+        failureRateThreshold: '50'
+        slidingWindowSize: '10'
+enableSwagger: 'true'
+microservice-one:
+  value: '100'
+common:
+  message: Hi from sipment-service.properties file
+user-service:
+  ribbon:
+    listOfServers: https://unlv-digi-log-test-oci.opc.oracleoutsourcing.com/
+server:
+  port: '9070'
+  servlet:
+    context-path: /shipment-service
+shipment:
+  export:
+    contextRoute: http://localhost:9070/shipment-service
