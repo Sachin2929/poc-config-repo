@@ -13,7 +13,7 @@ management:
       endpoint: http://localhost:9411/api/v2/spans
   health:
     circuitbreakers:
-      enabled: 'true'
+      enabled: true
   tracing:
     sampling:
       probability: '1.0'
@@ -65,15 +65,15 @@ resilience4j:
   circuitbreaker:
     instances:
       dashboardCount:
-        waitDurationInOpenState: 5s
-        automaticTransitionFromOpenToHalfOpenEnabled: 'true'
-        eventConsumerBufferSize: '10'
-        registerHealthIndicator: 'true'
-        permittedNumberOfCallsInHalfOpenState: '3'
-        slidingWindowType: COUNT_BASED
-        minimumNumberOfCalls: '5'
-        failureRateThreshold: '50'
-        slidingWindowSize: '10'
+        wait-duration-in-open-state: 5s
+        automatic-transition-from-open-to-half-open-enabled: true
+        event-consumer-buffer-size: 10
+        register-health-indicator: true
+        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-type: count-based
+        minimum-number-of-calls: 3
+        failure-rate-threshold: 50
+        sliding-window-size: 10
 enableSwagger: 'true'
 microservice-one:
   value: '100'
